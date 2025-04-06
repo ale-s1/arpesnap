@@ -1,0 +1,44 @@
+<div class="relative h-full">
+  <div class="absolute inset-0">
+    <div
+      class="hidden sm:block absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] [&>div]:absolute [&>div]:inset-0 [&>div]:bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)]"
+    >
+      <div></div>
+    </div>
+  </div>
+
+  <section
+    class="relative flex h-full flex-col items-center justify-center gap-10"
+  >
+    <div class="max-w-3xl text-center">
+      <h1
+        class="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl text-gray-500 dark:text-gray-900"
+      >
+        Arpe
+        <span class="text-sky-400">Snap</span>
+      </h1>
+    </div>
+    <div class="">
+      <p
+        class="max-w-2xl p-2 text-lg font-normal text-gray-500 dark:text-gray-400"
+      >
+        Arpe<span class="text-sky-400">Snap</span> is an app that allows users
+        to upload, trim, and share video clips. Whether you're creating short
+        videos to share with the Arpe<span class="text-sky-400">Snap</span>
+        community, editing a video to cut out the best parts, or downloading
+        them to keep them, ArpeSnap provides all the tools you need to do so.
+      </p>
+    </div>
+
+    @if (!(isAuthenticated$ | async)) {
+    <app-login-button />
+    }
+  </section>
+
+  <footer class="">
+    @if (isAuthenticated$ | async) {
+    <app-desktop-nav-bar-buttons />
+    <app-mobile-nav-bar-buttons />
+    }
+  </footer>
+</div>
