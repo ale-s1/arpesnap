@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { LoginButtonComponent } from '@app/shared/components/buttons/login-button/login-button.component';
+import { NavBarButtonsComponent } from '@app/shared/components/navegation/desktop/nav-bar-buttons/nav-bar-buttons.component';
+import { MobileNavBarButtonsComponent } from '@app/shared/components/navegation/mobile/mobile-nav-bar-buttons/mobile-nav-bar-buttons.component';
 import { AuthService } from '@auth0/auth0-angular';
-import { LoginButtonComponent } from '../../shared/components/buttons/login-button/login-button.component';
-import { NavBarButtonsComponent } from '../../shared/components/navegation/desktop/nav-bar-buttons/nav-bar-buttons.component';
-import { MobileNavBarButtonsComponent } from '../../shared/components/navegation/mobile/mobile-nav-bar-buttons/mobile-nav-bar-buttons.component';
 
 @Component({
   selector: 'app-home',
