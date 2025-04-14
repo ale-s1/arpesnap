@@ -1,0 +1,51 @@
+input[type="file"] {
+  display: none;
+}
+.image_box > input {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  top: 50%;
+  background-color: transparent;
+}
+
+.image_box {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border: 2px solid red;
+  position: relative;
+  height: 6rem;
+  /* overflow: hidden; */
+  border-radius: 10px;
+}
+
+.image_box > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* WebKit-based browsers (Chrome, Safari) */
+.range::-webkit-slider-thumb {
+  appearance: none;
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
+  background: pink;
+  border-radius: 50%;
+  cursor: ew-resize;
+}
+
+/* Firefox */
+.range::-moz-range-thumb {
+  appearance: none;
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
+  background: pink;
+  border-radius: 50%;
+  cursor: ew-resize;
+}

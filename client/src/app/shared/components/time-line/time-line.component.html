@@ -1,0 +1,131 @@
+<footer class="h-80 w-full bg-gray-900">
+  <div class="text-white h-8 gap-3 flex w-full justify-between">
+    <div class="flex-1 flex items-center">
+      <span>{{ state.readableCurrentTime }}</span>
+    </div>
+
+    <div class="flex-1 flex items-center justify-center gap-2">
+      <!-- restart video -->
+      <button
+        (click)="restartVideo()"
+        class="hover:text-sky-400 border border-gray-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5"
+          />
+        </svg>
+      </button>
+
+      @if (state.playing) {
+      <button
+        (click)="pauseVideo()"
+        class="hover:hover:text-sky-400 border border-gray-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 5.25v13.5m-7.5-13.5v13.5"
+          />
+        </svg>
+      </button>
+      } @else {
+      <button
+        (click)="playVideo()"
+        class="hover:hover:text-sky-400 border border-gray-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+          />
+        </svg>
+      </button>
+      }
+
+      <button
+        [ngClass]="state.isVideoLooping ? 'text-sky-400' : ''"
+        class="flex items-center gap-2 hover:hover:text-sky-400 border border-gray-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+          <path d="M10 9v6l5-3-5-3z" fill="currentColor" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex-1"></div>
+  </div>
+
+  <div class="image_box w-full">
+    @for (imgURL of imagesUrl; track $index) {
+    <img src="{{ imgURL }}" alt="video thumbnail" />
+    }
+    <div
+      [ngStyle]="{
+        width: 'calc(' + (rangeIndicatorEnd - rangeIndicatorStart) + '%)',
+        left: rangeIndicatorStart + '%'
+      }"
+      class="border-2 border-green-400 border-l-8 border-r-8 absolute h-[110%] translate-y-[-4%]"
+      data-start="0"
+      data-end="0"
+    >
+      <span class="clip_box_des"></span>
+      <span class="clip_box_des"></span>
+    </div>
+    <input
+      #rangeStartElement
+      class="range"
+      type="range"
+      [min]="rangeMin"
+      [max]="rangeMax"
+      [value]="rangeIndicatorStart"
+      (input)="rangeStartValue($event)"
+    />
+    <input
+      #rangeEndElement
+      class="range"
+      type="range"
+      [min]="rangeMin"
+      [max]="rangeMax"
+      [value]="rangeIndicatorEnd"
+      (input)="rangeEndValue($event)"
+    />
+  </div>
+</footer>
