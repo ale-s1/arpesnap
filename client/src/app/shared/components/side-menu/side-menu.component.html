@@ -1,0 +1,45 @@
+<aside class="flex h-full">
+  <div
+    class="flex flex-col items-center w-16 h-full space-y-7 bg-gray-900 border-r border-gray-700"
+  >
+    <!-- Upload a file -->
+    <div class="border-b border-gray-200 p-3">
+      <label
+        for="upload-file"
+        class="flex items-center justify-center cursor-pointer flex-col"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="white"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+        <input
+          type="file"
+          hidden
+          id="upload-file"
+          (change)="onSelectedFile($event)"
+        />
+      </label>
+    </div>
+
+    <!-- Draw text -->
+    <button
+      class="relative flex items-center justify-center w-8 text-gray-500 hover:text-gray-200 cursor-pointer transition-colors duration-200 rounded-lg hover:bg-gray-700 p-1.5"
+    >
+      <span class="size-6 font-bold">T</span>
+
+      <div
+        class="absolute bottom-0 right-0 w-0 h-0 border-l-4 border-b-4 border-l-transparent"
+      ></div>
+    </button>
+  </div>
+</aside>
