@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LogoutButtonComponent } from '../../../buttons/logout-button/logout-button.component';
+import { LogoutButtonComponent } from '@app/shared/components/buttons/logout-button/logout-button.component';
 
 @Component({
   selector: 'app-mobile-nav-bar-buttons',

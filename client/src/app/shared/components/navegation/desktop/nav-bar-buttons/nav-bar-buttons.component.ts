@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { LogoutButtonComponent } from '../../../buttons/logout-button/logout-button.component';
+import { RouterModule } from '@angular/router';
+import { LogoutButtonComponent } from '@app/shared/components/buttons/logout-button/logout-button.component';
 
 @Component({
   selector: 'app-desktop-nav-bar-buttons ',
-  imports: [LogoutButtonComponent],
+  imports: [LogoutButtonComponent, RouterModule],
   templateUrl: './nav-bar-buttons.component.html',
   styleUrl: './nav-bar-buttons.component.css',
 })
