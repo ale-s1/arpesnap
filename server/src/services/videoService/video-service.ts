@@ -61,3 +61,28 @@ export async function getThumbnailInMemory(
 		stream.on("data", (chunk: Buffer) => buffers.push(chunk));
 	});
 }
+
+export async function getExtractedAudio(
+	filePath: string
+): Promise<ArrayBuffer> {
+	return new Promise((resolve, reject) => {
+		const buffers: Buffer[] = [];
+		const command = Ffmpeg(filePath)
+			.noVideo()
+			.format("mp3")
+			.on("progress", (progress) => {
+				if (progress.percent) {
+					console.log(`Processing: ${Math.floor(progress.percent)}% done`);
+				}
+			})
+			.on("error", reject)
+			.on("end", () => {
+				const audioBuffer = Buffer.concat(buffers);
+				//const base64Audio = audioBuffer.toString("base64");
+				//const blobAudio = new Blob([audioBuffer], { type: "audio/mp3" });
+				resolve(audioBuffer);
+			});
+		const stream = command.pipe();
+		stream.on("data", (chunk: Buffer) => buffers.push(chunk));
+	});
+}

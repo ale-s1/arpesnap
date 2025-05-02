@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { thumbnailsController } from "../controllers/media-controller";
+import {
+	extractAudio,
+	thumbnailsController,
+} from "../controllers/media-controller";
 import upload from "../middleware/multer";
 import { validateVideo } from "../middleware/validate-video";
 
@@ -10,6 +13,13 @@ videoRoute.post(
 	upload.single("video"),
 	validateVideo,
 	thumbnailsController
+);
+
+videoRoute.post(
+	"/extract-audio",
+	upload.single("file"),
+	validateVideo,
+	extractAudio
 );
 
 export default videoRoute;
