@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@app/../environments/environment';
-import { ThumbnailResponse } from '@app/shared/interfaces/interfaces';
+import { ThumbnailResponse } from '@app/shared/types/types';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,5 +19,13 @@ export class ProcessVideoService {
       this.baseUrl + '/public/thumbnails',
       formData
     );
+  }
+
+  extractAudio(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(this.baseUrl + '/public/extract-audio', formData, {
+      responseType: 'blob',
+    });
   }
 }

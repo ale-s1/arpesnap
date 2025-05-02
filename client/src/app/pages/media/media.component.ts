@@ -5,14 +5,11 @@ import { VideoService } from '@app/core/services/video.service';
 import { HeaderComponent } from '@app/shared/components/header/header.component';
 import { LoaderComponent } from '@app/shared/components/loader/loader.component';
 import { SideMenuComponent } from '@app/shared/components/side-menu/side-menu.component';
-
 import { ToastrService } from 'ngx-toastr';
 
+import { AudioService } from '@app/core/services/audio.service';
 import { TimeLineComponent } from '@app/shared/components/time-line/time-line.component';
-import {
-  StreamState,
-  ThumbnailResponse,
-} from '@app/shared/interfaces/interfaces';
+import { ThumbnailResponse } from '@app/shared/types/types';
 
 @Component({
   selector: 'app-media',
@@ -29,18 +26,23 @@ import {
 })
 export class MediaComponent {
   @ViewChild('video', { static: false }) video!: ElementRef;
+  @ViewChild('audioContainer', { static: false }) audio!: ElementRef;
+
+  file: File | null = null;
   imagesUrl: string[] = [];
   isLoading: boolean = false;
-  state!: StreamState;
+  audioState!: any;
   currentUrl!: string;
+  showAudio: boolean = false;
 
   constructor(
     private videoService: VideoService,
     private processVideoService: ProcessVideoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private audioService: AudioService
   ) {
-    this.videoService.getState().subscribe((s) => {
-      this.state = s;
+    this.audioService.getState().subscribe((state) => {
+      this.audioState = state;
     });
   }
 
@@ -61,9 +63,18 @@ export class MediaComponent {
     }
     const url = URL.createObjectURL(file);
     this.videoService.initializeVideo(this.video.nativeElement);
+    this.file = file;
     this.currentUrl = url;
+    this.videoService.mute(false);
+
+    this.playStream(this.currentUrl);
     this.handleThumbnails(file);
-    this.playStream(url);
+
+    if (this.audioState.active) {
+      console.log('here');
+      this.audioService.removeAudio();
+      this.getExtractedAudio(true);
+    }
   }
 
   playStream(url: string) {
@@ -80,12 +91,53 @@ export class MediaComponent {
       },
       error: (error) => {
         this.toastr.error('Something went wrong, please select a video again');
-        this.videoService.destroy();
+        this.isLoading = false;
+        this.cleanupVideo();
       },
     });
   }
 
+  private cleanupVideo(): void {
+    if (this.currentUrl) {
+      URL.revokeObjectURL(this.currentUrl);
+      this.currentUrl = '';
+    }
+    this.videoService.destroy();
+    this.file = null;
+    this.imagesUrl = [];
+  }
+
   ngOnDestroy() {
     this.videoService.destroy();
+  }
+
+  getExtractedAudio(event: boolean) {
+    if (!this.currentUrl) {
+      this.toastr.warning('Select a file');
+      return;
+    }
+    if (!event) {
+      this.audioService.removeAudio();
+      this.videoService.mute(false);
+      return;
+    }
+    if (this.file) {
+      this.videoService.pause();
+      this.audioService.setActiveAudio(event);
+      this.processVideoService.extractAudio(this.file).subscribe({
+        next: (data: Blob) => {
+          this.toastr.success('Audio extracted successfully');
+          this.audioService.loadAudio(data);
+          this.videoService.mute(true);
+          this.audioService.play();
+          this.videoService.play();
+        },
+        error: (error) => {
+          this.toastr.error(
+            'Something went wrong, please select a video again'
+          );
+        },
+      });
+    }
   }
 }

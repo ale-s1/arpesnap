@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@app/../environments/environment';
-import { StreamState } from '@app/shared/interfaces/interfaces';
+import { StreamState } from '@app/shared/types/types';
 import { timeToString } from '@app/shared/utils/util';
 import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
@@ -18,7 +18,9 @@ export class VideoService {
     error: false,
     duration: 0,
     isVideoLooping: false,
+    isFileSelected: false,
   };
+
   private videoEvents = [
     'ended',
     'playing',
@@ -43,6 +45,7 @@ export class VideoService {
     return new Observable((observer) => {
       this.video.src = url;
       this.video.load();
+      this.state.isFileSelected = true;
 
       const handler = (event: Event) => {
         this.updateStateEvents(event);
@@ -90,8 +93,13 @@ export class VideoService {
     this.video.play();
   }
 
+  mute(muted: boolean) {
+    this.video.muted = muted;
+  }
+
   pause() {
     this.video.pause();
+    console.log('here');
   }
 
   destroy() {
@@ -144,6 +152,7 @@ export class VideoService {
       error: false,
       duration: 0,
       isVideoLooping: false,
+      isFileSelected: false,
     };
   }
 }

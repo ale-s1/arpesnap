@@ -1,7 +1,7 @@
 <footer class="h-80 w-full bg-gray-900">
   <div class="text-white h-8 gap-3 flex w-full justify-between">
     <div class="flex-1 flex items-center">
-      <span>{{ state.readableCurrentTime }}</span>
+      <span>{{ videoState.readableCurrentTime }}</span>
     </div>
 
     <div class="flex-1 flex items-center justify-center gap-2">
@@ -26,7 +26,7 @@
         </svg>
       </button>
 
-      @if (state.playing) {
+      @if (videoState.playing) {
       <button
         (click)="pauseVideo()"
         class="hover:hover:text-sky-400 border border-gray-400"
@@ -69,7 +69,7 @@
       }
 
       <button
-        [ngClass]="state.isVideoLooping ? 'text-sky-400' : ''"
+        [ngClass]="videoState.isVideoLooping ? 'text-sky-400' : ''"
         class="flex items-center gap-2 hover:hover:text-sky-400 border border-gray-400"
       >
         <svg
@@ -127,5 +127,8 @@
       [value]="rangeIndicatorEnd"
       (input)="rangeEndValue($event)"
     />
+  </div>
+  <div class="" [hidden]="!audioState.active">
+    <div class="w-full h-full" #audioContainer></div>
   </div>
 </footer>
